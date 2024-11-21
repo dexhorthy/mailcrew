@@ -58,12 +58,12 @@ Architecture
 
 A more detailed architecture diagram:
 
-<a href="./doc/images/architecture.png"><img src="./doc/images/architecture.png" width="400" alt="Architecture Diagram"></a>
+<img src="./doc/images/architecture.png" width="400" alt="Architecture Diagram">
 
 
 And an example of a conversation flow:
 
-<a href="./doc/images/workflow.png"><img src="./doc/images/workflow.png" width="400" alt="Conversation Flow"></a>
+<img src="./doc/images/workflow.png" width="400" alt="Conversation Flow">
 
 
 Usage
