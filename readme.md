@@ -1,8 +1,8 @@
-Mailchain
+Mailcrew
 ===========
 
 
-Mailchain is a language model agent that performs various tasks over email, including interacting with Stripe and Coinbase APIs.
+Mailcrew is a language model agent that performs various tasks over email, including interacting with Stripe and Coinbase APIs.
 
 Overview
 ---------
