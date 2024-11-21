@@ -58,12 +58,12 @@ Architecture
 
 A more detailed architecture diagram:
 
-![Architecture Diagram](./doc/images/architecture.png)
+<a href="./doc/images/architecture.png"><img src="./doc/images/architecture.png" width="400" alt="Architecture Diagram"></a>
 
 
 And an example of a conversation flow:
 
-![Conversation Flow](./doc/images/workflow.png)
+<a href="./doc/images/workflow.png"><img src="./doc/images/workflow.png" width="400" alt="Conversation Flow"></a>
 
 
 Usage
@@ -88,7 +88,7 @@ great, with that out of the way, let's get started.
 Copy the `dotenv.example` file to `.env` and fill in the values.
 
 ```
-cp dotenv.example .env
+cp api/dotenv.example api/.env
 ```
 
 You can get keys from [stripe](https://dashboard.stripe.com/test/apikeys) and [humanlayer](https://app.humanlayer.dev).
@@ -96,6 +96,7 @@ You can get keys from [stripe](https://dashboard.stripe.com/test/apikeys) and [h
 ```
 STRIPE_SECRET_KEY=
 HUMANLAYER_API_KEY=
+ALLOWED_INBOUND_EMAILS=
 ```
 
 koinbase instructions coming soon

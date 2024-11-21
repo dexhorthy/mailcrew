@@ -1,3 +1,4 @@
+import os
 from fastapi import BackgroundTasks, FastAPI
 import logging
 from app.agent import EmailPayload, process_email
@@ -11,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+ALLOWED_INBOUND_EMAILS = os.getenv("ALLOWED_INBOUND_EMAILS").split(",")
+
 
 @app.get("/")
 async def root():
@@ -22,6 +25,11 @@ async def email_webhook(
     email: EmailPayload,
     background_tasks: BackgroundTasks,
 ):
+    # todo - validate webhook signature
+
+    if email.from_email not in ALLOWED_INBOUND_EMAILS:
+        return {"message": "Email not allowed"}
+
     logger.info(f"Received email: {email}")
     background_tasks.add_task(process_email, email)
     return {"message": "Email received"}

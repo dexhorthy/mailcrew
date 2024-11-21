@@ -1,0 +1,6 @@
+# a list of email addresses that are allowed to send emails to the agent, separated by commas
+ALLOWED_INBOUND_EMAILS=person@example.com,another@example.com
+STRIPE_SECRET_KEY=
+HUMANLAYER_API_KEY=
+
+
