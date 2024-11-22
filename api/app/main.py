@@ -27,7 +27,8 @@ async def email_webhook(
 ):
     # todo - validate webhook signature
 
-    if email.from_email not in ALLOWED_INBOUND_EMAILS:
+    if email.from_address not in ALLOWED_INBOUND_EMAILS:
+        logger.warning(f"Email not allowed: {email.from_address}, allowed: {ALLOWED_INBOUND_EMAILS}")
         return {"message": "Email not allowed"}
 
     logger.info(f"Received email: {email}")
