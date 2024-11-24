@@ -4,12 +4,19 @@ Mailcrew
 
 Mailcrew is a language model agent that performs various tasks over email, including interacting with Stripe and Coinbase APIs.
 
-![Mailcrew](./doc/images/highlevel.png)
+<div align="center" style="width: 50%; margin: auto;">
+  <img src="./doc/images/highlevel.png" alt="High Level" width="50%"/>
+</div>
 
 
 
-Table of Contents
+
+Table of Contents & Quick Links
 ----------------
+
+| [Architecture](#architecture) | [Example Agent Task](#example-agent-task) | [Usage](#usage) |
+|------------|----------|----------|
+| [![architecture](./doc/images/architecture.png)](#architecture) | [![workflow](./doc/images/workflow-short.png)](#example-agent-task) | [![usage](./doc/images/usage.png)](#usage) |
 
 - [Overview](#overview)
 - [Stack](#stack)
@@ -68,8 +75,10 @@ A more detailed architecture diagram:
 
 <img src="./doc/images/architecture.png" width="400" alt="Architecture Diagram">
 
+### Example Agent Task
 
 And an example of a conversation flow:
+
 
 <img src="./doc/images/workflow.png" width="400" alt="Conversation Flow">
 
