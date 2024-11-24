@@ -11,14 +11,14 @@ Mailcrew is a language model agent that performs various tasks over email, inclu
 
 
 
-Table of Contents & Quick Links
+Quick Links
 ----------------
 
-| [Architecture](#architecture) | [Example Agent Task](#example-agent-task) | [Usage](#usage) |
-|------------|----------|----------|
-| [![architecture](./doc/images/architecture.png)](#architecture) | [![workflow](./doc/images/workflow-short.png)](#example-agent-task) | [![usage](./doc/images/usage.png)](#usage) |
+| [Architecture](#architecture) | [Example Agent Task](#example-agent-task) | [Usage](#usage) | [Video Overview](https://www.youtube.com/watch?v=f_cKnoPC_Oo) |
+|------------|----------|----------|----------|
+| [![architecture](./doc/images/architecture.png)](#architecture) | [![workflow](./doc/images/workflow-short.png)](#example-agent-task) | [![usage](./doc/images/usage.png)](#usage) | [![video](https://img.youtube.com/vi/f_cKnoPC_Oo/0.jpg)](https://www.youtube.com/watch?v=f_cKnoPC_Oo) |
 
-- [Overview](#overview)
+- [Why Mailcrew?](#why-mailcrew)
 - [Stack](#stack)
 - [Architecture](#architecture)
 - [Usage](#usage)
@@ -31,13 +31,7 @@ Table of Contents & Quick Links
   - [Send an email to the agent](#6-send-an-email-to-the-agent)
 - [Deploying](#deploying)
 
-
-
-### Video Demo: 
-
-[![Mailcrew Demo](https://img.youtube.com/vi/f_cKnoPC_Oo/0.jpg)](https://www.youtube.com/watch?v=f_cKnoPC_Oo)
-
-Overview
+Why Mailcrew?
 ---------
 
 
@@ -60,16 +54,14 @@ At the end of the day, we're completing a core loop:
 
 If there are any ambiguities or questions, I wanted the agent to be able to ask follow up questions via email.
 
-Stack
+Architecture
 ----
+
 
 - Python FastAPI
 - Agent SDKs from Stripe and Coinbase
 - CrewAI agent for processing
 - HumanLayer for agent->human communication over email
-
-Architecture
-----
 
 A more detailed architecture diagram:
 
