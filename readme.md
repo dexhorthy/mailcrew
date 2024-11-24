@@ -6,6 +6,8 @@ Mailcrew is a language model agent that performs various tasks over email, inclu
 
 ![Mailcrew](./doc/images/highlevel.png)
 
+
+
 Table of Contents
 ----------------
 
@@ -23,8 +25,14 @@ Table of Contents
 - [Deploying](#deploying)
 
 
+
+### Video Demo: 
+
+[![Mailcrew Demo](https://img.youtube.com/vi/f_cKnoPC_Oo/0.jpg)](https://www.youtube.com/watch?v=f_cKnoPC_Oo)
+
 Overview
 ---------
+
 
 I am super interested in "alternative interfaces" for language models, like slack, email, and SMS,
 and wanted to explore what would be a good UX for an an agent that operates over email. 
