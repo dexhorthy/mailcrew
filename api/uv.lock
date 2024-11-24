@@ -147,7 +147,7 @@ requires-dist = [
     { name = "crewai", specifier = ">=0.80.0" },
     { name = "crewai-tools", specifier = ">=0.14.0" },
     { name = "fastapi", specifier = ">=0.115.5" },
-    { name = "humanlayer", specifier = "==0.6.1" },
+    { name = "humanlayer", directory = "../../../humanlayer/humanlayer" },
     { name = "pydantic", specifier = "==2.8.2" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "stripe", specifier = ">=11.2.0" },
@@ -1303,8 +1303,8 @@ wheels = [
 
 [[package]]
 name = "humanlayer"
-version = "0.6.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.6.2rc2"
+source = { directory = "../../../humanlayer/humanlayer" }
 dependencies = [
     { name = "click" },
     { name = "pydantic" },
@@ -1312,9 +1312,14 @@ dependencies = [
     { name = "python-slugify" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6f/50/c58c1e43fe935e0710074cac86dc8950414ab0303be4fe44ba94d1c6f951/humanlayer-0.6.1.tar.gz", hash = "sha256:871351ac3bce163f60e0fd4563e30688891a4704bd60033a24d3bfc7e8cfe4a6", size = 21296 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/bf/b63a4932a2398d8fab43930202915470a797aadc4cd51e5236eb76f75185/humanlayer-0.6.1-py3-none-any.whl", hash = "sha256:ead183feac7d1596a8d3acfbe90eff31634f7e0f32989d72273a2e6066e3fce9", size = 19826 },
+
+[package.metadata]
+requires-dist = [
+    { name = "click", specifier = "==8.1.7" },
+    { name = "pydantic", specifier = "==2.8.2" },
+    { name = "python-dotenv", specifier = "==1.0.1" },
+    { name = "python-slugify", specifier = "==8.0.4" },
+    { name = "requests", specifier = "==2.32.3" },
 ]
 
 [[package]]

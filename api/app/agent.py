@@ -1,13 +1,12 @@
-import os
-
 import asyncio
 import logging
+import os
+from typing import Optional, List, Any, Annotated
+
 from crewai import Agent, Task, Crew
 from crewai_tools import tool, BaseTool
-from humanlayer import ContactChannel, EmailContactChannel, HumanLayer, FunctionCallSpec
+from humanlayer import ContactChannel, EmailContactChannel, HumanLayer
 from pydantic import BaseModel
-from typing import Optional, List, Any
-
 from stripe_agent_toolkit.crewai.toolkit import StripeAgentToolkit
 
 logger = logging.getLogger(__name__)
@@ -32,12 +31,34 @@ class EmailPayload(BaseModel):
     raw_email: str
 
 
-#
-#
+INJECT_THOUGHTS = True
+
+
 async def run_async(fn, *args):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, fn, *args)
 
+
+def make_safe_tool(hl: HumanLayer, stripe_tool: Any):
+    def _tool(
+        thought: Annotated[ str, "a description of why this action makes " # noqa
+                                 "sense, and the steps you took to this point"],
+        *args,
+        **kwargs,
+    ):
+        return stripe_tool.stripe_api.run(stripe_tool.method, *args, **kwargs)
+
+    _tool.__name__ = stripe_tool.name
+    _tool.__doc__ = stripe_tool.description
+
+    # welcome to mypy where everything's made up and the types don't matter
+    for k, v in stripe_tool.args_schema.__annotations__.items():
+        _tool.__annotations__[k] = v
+
+    if not INJECT_THOUGHTS:
+        del _tool.__annotations__["thought"]
+
+    return hl.require_approval()(_tool)
 
 
 def stripe_tools_with_approval_guardrails(hl: HumanLayer) -> list[BaseTool]:
@@ -102,49 +123,19 @@ def stripe_tools_with_approval_guardrails(hl: HumanLayer) -> list[BaseTool]:
     safe_tools: list[BaseTool] = []
     for stripe_tool in scary_tools.get_tools():
 
-        # TODO - humanlayer needs a more native crew integration
-        class SafeTool(BaseTool):
-            tool: Any
-            def __init__(self, t):
-                super().__init__(
-                    name=t.name,
-                    description=t.description,
-                    args_schema=t.args_schema,
-                    tool=t,
-                )
 
-            def _run(
-                self,
-                *args: Any,
-                **kwargs: Any,
-            ) -> Any:
-                result = hl.fetch_approval(
-                    FunctionCallSpec(
-                        fn=self.name,
-                        kwargs=kwargs,
-                    )
-                )
-                if result.as_completed().approved is True:
-                    try:
-                        return self.tool.stripe_api.run(self.tool.method, *args, **kwargs)
-                    except Exception as e:
-                        return f"Error calling tool: {str(e)}"
-                else:
-                    return f"User denied tool with feedback:{result.as_completed().comment}"
-
-        safe_tools += [SafeTool(stripe_tool)]
+        safe_tools += [tool(make_safe_tool(hl, stripe_tool))]
 
     return safe_tools + readonly_tools
 
-
 async def process_email(email: EmailPayload):
     hl = HumanLayer(
+        run_id=f"mailcrew-{email.message_id[1:5]}",
         contact_channel=ContactChannel(
-            email=EmailContactChannel(
-                address=email.from_address,
-                context_about_user="the user who made the request",
-                experimental_in_reply_to_message_id=email.message_id,
-                experimental_references_message_id=email.message_id,
+            email=EmailContactChannel.in_reply_to(
+                from_address=email.from_address,
+                subject=email.subject,
+                message_id=email.message_id,
             )
         )
     )
@@ -157,6 +148,9 @@ async def process_email(email: EmailPayload):
         intelligent decisions about which tools to call.
         
         NEVER respond directly to the user, ONLY use tools, forever, to interact with the user
+        
+        Before creating any object, always check to see if it already
+        exists.
         """,
         tools=[tool(hl.human_as_tool()), *stripe_tools_with_approval_guardrails(hl)],
         verbose=True,
@@ -192,5 +186,5 @@ async def process_email(email: EmailPayload):
     await crew.kickoff_async()
     ret = task.output.raw
     logger.info(f"Task completed: {ret}")
-    return await run_async(hl.human_as_tool(), f"Task completed: {ret}")
+    return await run_async(hl.human_as_tool(), f"Task result: {ret}")
 
